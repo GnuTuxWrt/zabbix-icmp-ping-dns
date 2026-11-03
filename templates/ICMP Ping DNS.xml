@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>36bff6c29af64692839d077febfc7079</uuid>
+            <name>Templates/Network devices</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>813a9a315e4347a18636f3c0d771e17a</uuid>
+            <template>ICMP Ping DNS</template>
+            <name>ICMP Ping DNS</name>
+            <groups>
+                <group>
+                    <name>Templates/Network devices</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>e985e2aa641e431ebfdd2acfb029444b</uuid>
+                    <name>net.dns.record.deduplicated</name>
+                    <type>CALCULATED</type>
+                    <key>net.dns.record.deduplicated</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <params>concat(last(/{HOST.HOST}/net.dns.record[8.8.4.4,{HOST.HOST},A]),last(/{HOST.HOST}/net.dns.record[8.8.4.4,{HOST.HOST},AAAA]),last(/{HOST.HOST}/net.dns.record[2001:4860:4860::8844,{HOST.HOST},A]),last(/{HOST.HOST}/net.dns.record[2001:4860:4860::8844,{HOST.HOST},AAAA]),last(/{HOST.HOST}/net.dns.record[8.8.8.8,{HOST.HOST},A]),last(/{HOST.HOST}/net.dns.record[8.8.8.8,{HOST.HOST},AAAA]),last(/{HOST.HOST}/net.dns.record[2001:4860:4860::8888,{HOST.HOST},A]),last(/{HOST.HOST}/net.dns.record[2001:4860:4860::8888,{HOST.HOST},AAAA]))</params>
+                    <preprocessing>
+                        <step>
+                            <type>STR_REPLACE</type>
+                            <parameters>
+                                <parameter>[]</parameter>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>STR_REPLACE</type>
+                            <parameters>
+                                <parameter>][</parameter>
+                                <parameter>,</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var s={};return JSON.stringify(JSON.parse(value).filter(function(o){return!s[o.ip]&amp;&amp;(s[o.ip]=1);}));</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>96430d79d8dc425992a902146a485ff3</uuid>
+                    <name>primary4.ipv6</name>
+                    <key>net.dns.record[8.8.4.4,{HOST.HOST},AAAA]</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>7d915a6eac7441bf9a63cea3a23c3e55</uuid>
+                    <name>primary4.ipv4</name>
+                    <key>net.dns.record[8.8.4.4,{HOST.HOST},A]</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>829665b1dbd046888cbc3988ca4d5289</uuid>
+                    <name>secondary4.ipv6</name>
+                    <key>net.dns.record[8.8.8.8,{HOST.HOST},AAAA]</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>68c08216ebf340cb99a6a10731332f5e</uuid>
+                    <name>secondary4.ipv4</name>
+                    <key>net.dns.record[8.8.8.8,{HOST.HOST},A]</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>dd917e72cb87402888fc05c1d2f6de61</uuid>
+                    <name>primary6.ipv6</name>
+                    <key>net.dns.record[2001:4860:4860::8844,{HOST.HOST},AAAA]</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>df94423f7f0a41678df8ca38fe87d8f9</uuid>
+                    <name>primary6.ipv4</name>
+                    <key>net.dns.record[2001:4860:4860::8844,{HOST.HOST},A]</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>4e483d0e1ef542da95f2b7338962f670</uuid>
+                    <name>secondary6.ipv6</name>
+                    <key>net.dns.record[2001:4860:4860::8888,{HOST.HOST},AAAA]</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <uuid>3a4b3e6d0c9e43e8a70b2566f67a7839</uuid>
+                    <name>secondary6.ipv4</name>
+                    <key>net.dns.record[2001:4860:4860::8888,{HOST.HOST},A]</key>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                        </step>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>e93593bc92454f25bedbaf967119a4b8</uuid>
+                    <name>discovery</name>
+                    <type>DEPENDENT</type>
+                    <key>discovery</key>
+                    <delay>0</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>4d4a05e1b20d48e8a85fb2e3c28840c7</uuid>
+                            <name>ICMP loss {#IP}</name>
+                            <type>SIMPLE</type>
+                            <key>icmppingloss[{#IP}]</key>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <description>The percentage of lost packets.</description>
+                            <tags>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>health</value>
+                                </tag>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>network</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>4f702dfa75a14049b9c073e375f20e68</uuid>
+                                    <expression>min(/ICMP Ping DNS/icmppingloss[{#IP}],5m)&gt;{$ICMP_LOSS_WARN} and min(/ICMP Ping DNS/icmppingloss[{#IP}],5m)&lt;100</expression>
+                                    <name>ICMP Ping: High ICMP ping loss {#IP}</name>
+                                    <opdata>Loss: {ITEM.LASTVALUE1}</opdata>
+                                    <priority>WARNING</priority>
+                                    <description>ICMP packets loss detected.</description>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>ICMP Ping: Unavailable by ICMP ping {#IP}</name>
+                                            <expression>max(/ICMP Ping DNS/icmpping[{#IP}],3)=0</expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>scope</tag>
+                                            <value>availability</value>
+                                        </tag>
+                                        <tag>
+                                            <tag>scope</tag>
+                                            <value>performance</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>c68815ab697c46eaa97f1a0dd10cec3d</uuid>
+                            <name>ICMP response time {#IP}</name>
+                            <type>SIMPLE</type>
+                            <key>icmppingsec[{#IP}]</key>
+                            <value_type>FLOAT</value_type>
+                            <units>s</units>
+                            <description>The ICMP ping response time (in seconds).</description>
+                            <tags>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>health</value>
+                                </tag>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>network</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>f9257a0f35ce422fa6c0afcfa5ad015f</uuid>
+                                    <expression>avg(/ICMP Ping DNS/icmppingsec[{#IP}],5m)&gt;{$ICMP_RESPONSE_TIME_WARN}</expression>
+                                    <name>ICMP Ping: High ICMP ping response time {#IP}</name>
+                                    <opdata>Value: {ITEM.LASTVALUE1}</opdata>
+                                    <priority>WARNING</priority>
+                                    <description>Average ICMP response time is too high.</description>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>ICMP Ping: High ICMP ping loss {#IP}</name>
+                                            <expression>min(/ICMP Ping DNS/icmppingloss[{#IP}],5m)&gt;{$ICMP_LOSS_WARN} and min(/ICMP Ping DNS/icmppingloss[{#IP}],5m)&lt;100</expression>
+                                        </dependency>
+                                        <dependency>
+                                            <name>ICMP Ping: Unavailable by ICMP ping {#IP}</name>
+                                            <expression>max(/ICMP Ping DNS/icmpping[{#IP}],3)=0</expression>
+                                        </dependency>
+                                    </dependencies>
+                                    <tags>
+                                        <tag>
+                                            <tag>scope</tag>
+                                            <value>availability</value>
+                                        </tag>
+                                        <tag>
+                                            <tag>scope</tag>
+                                            <value>performance</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>82d2a1d12f0a4cac833230ac4c9698f8</uuid>
+                            <name>ICMP ping {#IP}</name>
+                            <type>SIMPLE</type>
+                            <key>icmpping[{#IP}]</key>
+                            <description>The host accessibility by ICMP ping.
+
+0 - ICMP ping fails;
+1 - ICMP ping successful.</description>
+                            <valuemap>
+                                <name>Service state</name>
+                            </valuemap>
+                            <tags>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>health</value>
+                                </tag>
+                                <tag>
+                                    <tag>component</tag>
+                                    <value>network</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>c1eb82e9b4dd46cb80bf2074a3ff8d51</uuid>
+                                    <expression>max(/ICMP Ping DNS/icmpping[{#IP}],3)=0</expression>
+                                    <name>ICMP Ping: Unavailable by ICMP ping {#IP}</name>
+                                    <priority>HIGH</priority>
+                                    <description>Last three attempts returned timeout. Please check device connectivity.</description>
+                                    <tags>
+                                        <tag>
+                                            <tag>scope</tag>
+                                            <value>availability</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <master_item>
+                        <key>net.dns.record.deduplicated</key>
+                    </master_item>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#IP}</lld_macro>
+                            <path>$.ip</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+            </discovery_rules>
+            <tags>
+                <tag>
+                    <tag>class</tag>
+                    <value>network</value>
+                </tag>
+                <tag>
+                    <tag>target</tag>
+                    <value>icmp</value>
+                </tag>
+            </tags>
+            <macros>
+                <macro>
+                    <macro>{$ICMP_LOSS_WARN}</macro>
+                    <value>20</value>
+                    <description>Warning threshold of ICMP packet loss in %.</description>
+                </macro>
+                <macro>
+                    <macro>{$ICMP_RESPONSE_TIME_WARN}</macro>
+                    <value>0.15</value>
+                    <description>Warning threshold of the average ICMP response time in seconds.</description>
+                </macro>
+            </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>69c066a025914516a8877ac33afc5261</uuid>
+                    <name>Service state</name>
+                    <mappings>
+                        <mapping>
+                            <value>0</value>
+                            <newvalue>Down</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>Up</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
+        </template>
+    </templates>
+</zabbix_export>

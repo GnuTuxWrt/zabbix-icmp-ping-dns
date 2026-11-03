@@ -1,0 +1,15 @@
+zabbix_export:
+  version: '7.0'
+  host_groups:
+    - uuid: ba2a88ca2b1b4db8b64a0b7b6a2897f0
+      name: 'ICMP Ping DNS'
+  hosts:
+    - host: www.zabbix.com
+      name: www.zabbix.com
+      templates:
+        - name: 'ICMP Ping DNS'
+      groups:
+        - name: 'ICMP Ping DNS'
+      interfaces:
+        - interface_ref: if1
+      inventory_mode: DISABLED

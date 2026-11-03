@@ -1,0 +1,248 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
+  templates:
+    - uuid: 813a9a315e4347a18636f3c0d771e17a
+      template: 'ICMP Ping DNS'
+      name: 'ICMP Ping DNS'
+      groups:
+        - name: 'Templates/Network devices'
+      items:
+        - uuid: e985e2aa641e431ebfdd2acfb029444b
+          name: net.dns.record.deduplicated
+          type: CALCULATED
+          key: net.dns.record.deduplicated
+          value_type: TEXT
+          trends: '0'
+          params: 'concat(last(/{HOST.HOST}/net.dns.record[8.8.4.4,{HOST.HOST},A]),last(/{HOST.HOST}/net.dns.record[8.8.4.4,{HOST.HOST},AAAA]),last(/{HOST.HOST}/net.dns.record[2001:4860:4860::8844,{HOST.HOST},A]),last(/{HOST.HOST}/net.dns.record[2001:4860:4860::8844,{HOST.HOST},AAAA]),last(/{HOST.HOST}/net.dns.record[8.8.8.8,{HOST.HOST},A]),last(/{HOST.HOST}/net.dns.record[8.8.8.8,{HOST.HOST},AAAA]),last(/{HOST.HOST}/net.dns.record[2001:4860:4860::8888,{HOST.HOST},A]),last(/{HOST.HOST}/net.dns.record[2001:4860:4860::8888,{HOST.HOST},AAAA]))'
+          preprocessing:
+            - type: STR_REPLACE
+              parameters:
+                - '[]'
+                - ''
+            - type: STR_REPLACE
+              parameters:
+                - ']['
+                - ','
+            - type: JAVASCRIPT
+              parameters:
+                - 'var s={};return JSON.stringify(JSON.parse(value).filter(function(o){return!s[o.ip]&&(s[o.ip]=1);}));'
+        - uuid: 96430d79d8dc425992a902146a485ff3
+          name: primary4.ipv6
+          key: 'net.dns.record[8.8.4.4,{HOST.HOST},AAAA]'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: CHECK_NOT_SUPPORTED
+              parameters:
+                - '-1'
+              error_handler: CUSTOM_VALUE
+            - type: JAVASCRIPT
+              parameters:
+                - 'var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);'
+        - uuid: 7d915a6eac7441bf9a63cea3a23c3e55
+          name: primary4.ipv4
+          key: 'net.dns.record[8.8.4.4,{HOST.HOST},A]'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: CHECK_NOT_SUPPORTED
+              parameters:
+                - '-1'
+              error_handler: CUSTOM_VALUE
+            - type: JAVASCRIPT
+              parameters:
+                - 'var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);'
+        - uuid: 829665b1dbd046888cbc3988ca4d5289
+          name: secondary4.ipv6
+          key: 'net.dns.record[8.8.8.8,{HOST.HOST},AAAA]'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: CHECK_NOT_SUPPORTED
+              parameters:
+                - '-1'
+              error_handler: CUSTOM_VALUE
+            - type: JAVASCRIPT
+              parameters:
+                - 'var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);'
+        - uuid: 68c08216ebf340cb99a6a10731332f5e
+          name: secondary4.ipv4
+          key: 'net.dns.record[8.8.8.8,{HOST.HOST},A]'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: CHECK_NOT_SUPPORTED
+              parameters:
+                - '-1'
+              error_handler: CUSTOM_VALUE
+            - type: JAVASCRIPT
+              parameters:
+                - 'var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);'
+        - uuid: dd917e72cb87402888fc05c1d2f6de61
+          name: primary6.ipv6
+          key: 'net.dns.record[2001:4860:4860::8844,{HOST.HOST},AAAA]'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: CHECK_NOT_SUPPORTED
+              parameters:
+                - '-1'
+              error_handler: CUSTOM_VALUE
+            - type: JAVASCRIPT
+              parameters:
+                - 'var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);'
+        - uuid: df94423f7f0a41678df8ca38fe87d8f9
+          name: primary6.ipv4
+          key: 'net.dns.record[2001:4860:4860::8844,{HOST.HOST},A]'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: CHECK_NOT_SUPPORTED
+              parameters:
+                - '-1'
+              error_handler: CUSTOM_VALUE
+            - type: JAVASCRIPT
+              parameters:
+                - 'var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);'
+        - uuid: 4e483d0e1ef542da95f2b7338962f670
+          name: secondary6.ipv6
+          key: 'net.dns.record[2001:4860:4860::8888,{HOST.HOST},AAAA]'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: CHECK_NOT_SUPPORTED
+              parameters:
+                - '-1'
+              error_handler: CUSTOM_VALUE
+            - type: JAVASCRIPT
+              parameters:
+                - 'var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);'
+        - uuid: 3a4b3e6d0c9e43e8a70b2566f67a7839
+          name: secondary6.ipv4
+          key: 'net.dns.record[2001:4860:4860::8888,{HOST.HOST},A]'
+          value_type: TEXT
+          trends: '0'
+          preprocessing:
+            - type: CHECK_NOT_SUPPORTED
+              parameters:
+                - '-1'
+              error_handler: CUSTOM_VALUE
+            - type: JAVASCRIPT
+              parameters:
+                - 'var r=[];value.replace(/\b(?:A|AAAA)\s+([\da-f:.]+)/g,function(_,ip){r.push({ip:ip});});return JSON.stringify(r);'
+      discovery_rules:
+        - uuid: e93593bc92454f25bedbaf967119a4b8
+          name: discovery
+          type: DEPENDENT
+          key: discovery
+          delay: '0'
+          item_prototypes:
+            - uuid: 4d4a05e1b20d48e8a85fb2e3c28840c7
+              name: 'ICMP loss {#IP}'
+              type: SIMPLE
+              key: 'icmppingloss[{#IP}]'
+              value_type: FLOAT
+              units: '%'
+              description: 'The percentage of lost packets.'
+              tags:
+                - tag: component
+                  value: health
+                - tag: component
+                  value: network
+              trigger_prototypes:
+                - uuid: 4f702dfa75a14049b9c073e375f20e68
+                  expression: 'min(/ICMP Ping DNS/icmppingloss[{#IP}],5m)>{$ICMP_LOSS_WARN} and min(/ICMP Ping DNS/icmppingloss[{#IP}],5m)<100'
+                  name: 'ICMP Ping: High ICMP ping loss {#IP}'
+                  opdata: 'Loss: {ITEM.LASTVALUE1}'
+                  priority: WARNING
+                  description: 'ICMP packets loss detected.'
+                  dependencies:
+                    - name: 'ICMP Ping: Unavailable by ICMP ping {#IP}'
+                      expression: 'max(/ICMP Ping DNS/icmpping[{#IP}],3)=0'
+                  tags:
+                    - tag: scope
+                      value: availability
+                    - tag: scope
+                      value: performance
+            - uuid: c68815ab697c46eaa97f1a0dd10cec3d
+              name: 'ICMP response time {#IP}'
+              type: SIMPLE
+              key: 'icmppingsec[{#IP}]'
+              value_type: FLOAT
+              units: s
+              description: 'The ICMP ping response time (in seconds).'
+              tags:
+                - tag: component
+                  value: health
+                - tag: component
+                  value: network
+              trigger_prototypes:
+                - uuid: f9257a0f35ce422fa6c0afcfa5ad015f
+                  expression: 'avg(/ICMP Ping DNS/icmppingsec[{#IP}],5m)>{$ICMP_RESPONSE_TIME_WARN}'
+                  name: 'ICMP Ping: High ICMP ping response time {#IP}'
+                  opdata: 'Value: {ITEM.LASTVALUE1}'
+                  priority: WARNING
+                  description: 'Average ICMP response time is too high.'
+                  dependencies:
+                    - name: 'ICMP Ping: High ICMP ping loss {#IP}'
+                      expression: 'min(/ICMP Ping DNS/icmppingloss[{#IP}],5m)>{$ICMP_LOSS_WARN} and min(/ICMP Ping DNS/icmppingloss[{#IP}],5m)<100'
+                    - name: 'ICMP Ping: Unavailable by ICMP ping {#IP}'
+                      expression: 'max(/ICMP Ping DNS/icmpping[{#IP}],3)=0'
+                  tags:
+                    - tag: scope
+                      value: availability
+                    - tag: scope
+                      value: performance
+            - uuid: 82d2a1d12f0a4cac833230ac4c9698f8
+              name: 'ICMP ping {#IP}'
+              type: SIMPLE
+              key: 'icmpping[{#IP}]'
+              description: |
+                The host accessibility by ICMP ping.
+                
+                0 - ICMP ping fails;
+                1 - ICMP ping successful.
+              valuemap:
+                name: 'Service state'
+              tags:
+                - tag: component
+                  value: health
+                - tag: component
+                  value: network
+              trigger_prototypes:
+                - uuid: c1eb82e9b4dd46cb80bf2074a3ff8d51
+                  expression: 'max(/ICMP Ping DNS/icmpping[{#IP}],3)=0'
+                  name: 'ICMP Ping: Unavailable by ICMP ping {#IP}'
+                  priority: HIGH
+                  description: 'Last three attempts returned timeout. Please check device connectivity.'
+                  tags:
+                    - tag: scope
+                      value: availability
+          master_item:
+            key: net.dns.record.deduplicated
+          lld_macro_paths:
+            - lld_macro: '{#IP}'
+              path: $.ip
+      tags:
+        - tag: class
+          value: network
+        - tag: target
+          value: icmp
+      macros:
+        - macro: '{$ICMP_LOSS_WARN}'
+          value: '20'
+          description: 'Warning threshold of ICMP packet loss in %.'
+        - macro: '{$ICMP_RESPONSE_TIME_WARN}'
+          value: '0.15'
+          description: 'Warning threshold of the average ICMP response time in seconds.'
+      valuemaps:
+        - uuid: 69c066a025914516a8877ac33afc5261
+          name: 'Service state'
+          mappings:
+            - value: '0'
+              newvalue: Down
+            - value: '1'
+              newvalue: Up
