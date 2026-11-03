@@ -1,0 +1,16 @@
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*~
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Local automation / screenshot helper scripts (not part of the template)
+*.log
+screenshots_work/
